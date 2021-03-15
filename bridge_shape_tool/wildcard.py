@@ -2,6 +2,7 @@
 In tutorial 2 question 3, we were asked to find the probability that a random bridge hand had shape 64XX
 The XX represented a wildcard, such that both 6-4-2-1 and 6-4-3-0 matched.
 
+This is code to help with that.
 """
 
 from string import digits
@@ -45,7 +46,11 @@ def parse_wildcard(wildcard):
 	if len(result) != 4:
 		raise ValueError("Wildcard has {} entries; expected 4".format(len(result)))
 	
-	return tuple(result)
+	# here we sort the result (as bridge shapes are denoted highest to lowest) and put Xs last
+	sorted_digits = tuple(sorted((x for x in result if x != "X"), reverse=True))
+	just_xs = tuple(x for x in result if x == "X")
+	
+	return sorted_digits + just_xs
 
 def matches_wildcard(shape, wildcard):
 	"Returns whether a shape matches the given parsed wildcard"

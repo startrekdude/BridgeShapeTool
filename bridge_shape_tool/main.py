@@ -6,8 +6,10 @@ from .plot import plot_shape_distribution, plot_shape_distribution_graph
 from .shapecalc import number_of_hands_with_shape
 from .util import format_shape
 from .wildcard import all_bridge_shapes_matching_wildcard
+
 from tkinter import *
 from tkinter import simpledialog
+import tkinter.messagebox
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
@@ -110,41 +112,46 @@ def test_math():
 
 #clears anything on the screen
 def clear(root):
-    list = root.pack_slaves()
-    for l in list:
-        l.destroy()
-    list = root.grid_slaves()
-    for l in list:
-        l.destroy()
+	list = root.pack_slaves()
+	for l in list:
+		l.destroy()
+	list = root.grid_slaves()
+	for l in list:
+		l.destroy()
 
 #initializes the program
 def programInit():  
-        root = Tk()
-        root.title("Bridge Shape Tool")
-        menubar = Menu(root)
-        menubar.add_cascade(label="Graph", command=lambda: gen_graph(root))
-        menubar.add_cascade(label="Table", command=lambda: gen_table(root))
-        menubar.add_cascade(label="Calculator for wildcard variants", command=lambda: gen_extra(root))
-        root.config(menu=menubar)
-        root.mainloop()
+	root = Tk()
+	root.title("Bridge Shape Tool")
+	menubar = Menu(root)
+	menubar.add_cascade(label="Graph", command=lambda: gen_graph(root))
+	menubar.add_cascade(label="Table", command=lambda: gen_table(root))
+	menubar.add_cascade(label="Calculator for wildcard variants", command=lambda: gen_extra(root))
+	# start out showing something
+	gen_graph(root)
+	root.config(menu=menubar)
+	root.mainloop()
 
 #creates a table for all of the data
 def gen_table(root):
-        clear(root)
-        rows = []
-        rows.append(shape_gen())
-        rows.append(expression_gen())
-        rows.append(hand_gen())
-        rows.append(probability_gen())
+	clear(root)
+	rows = []
+	rows.append(shape_gen())
+	rows.append(expression_gen())
+	rows.append(hand_gen())
+	rows.append(probability_gen())
 
 #creates a histogram with all of the data included
 def gen_graph(root):
-        clear(root)
-        plot_shape_distribution_graph(root)
+	clear(root)
+	plot_shape_distribution_graph(root)
 
 #creates a table with all wildcard entries for a given shape in form 64XX, X4XX, 13XXX, etc.
 def gen_extra(root):
-        clear(root)
-        wildcard = simpledialog.askstring("input string", "Please enter desired shape of size 4 using a combination of numbers and X values. (e.g.64XX or X4XX)")
-        rows = []
-        rows.append(extra_gen(list(all_bridge_shapes_matching_wildcard(wildcard))))
+	clear(root)
+	wildcard = simpledialog.askstring("Bridge Shape Wildcard",\
+		"Please enter desired shape of size 4 using a combination of numbers and X values. (e.g.64XX or X4XX)")
+	try:	
+		extra_gen(list(all_bridge_shapes_matching_wildcard(wildcard)))
+	except ValueError as e:
+		tkinter.messagebox.showerror(title="ValueError", message=str(e))

@@ -1,3 +1,2 @@
 matplotlib==3.3.4
-tk
-pandas
+pandas==1.2.3

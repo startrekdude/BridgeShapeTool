@@ -95,7 +95,7 @@ def hand_gen():
 	for count, shape in data:
 		e = Entry(relief=GROOVE)
 		e.grid(row=i, column=2, sticky=(N, E, W),  padx=5)
-		e.insert(END, count)
+		e.insert(END, "{:,}".format(count))
 		cols.append(e)
 		i+=1
 
@@ -125,29 +125,62 @@ def probability_gen():
 
 #generates the table associated with wildcard.py program.
 def extra_gen(hands):
+	# first we do all possible shapes for the wildcard
 	i = 1
 	cols = []
 	e = Entry(relief=GROOVE)
 	e.grid(row=0, column=0, sticky=(N, E, W),  padx=5, ipadx=30)
-	e.insert(END,  "Possible hands for the shape" )
+	e.insert(END,  "Possible shapes for the wildcard" )
 	#creates the
-	for shape in hands:
+	for shape in hands + ["Sum"]:
 		e = Entry(relief=GROOVE)
 		e.grid(row=i, column=0, sticky=(N, E, W),  padx=5, ipadx=30)
 		e.insert(END, shape)
 		cols.append(e)
 		i+=1
+	
+	# then we do the number of hands in each shame
 	i = 1
 	e = Entry(relief=GROOVE)
 	e.grid(row=0, column=1, sticky=(N, E, W),  padx=5, ipadx=30)
-	e.insert(END,  "Probability of occuring in a random hand" )
-	for shape in hands:
-		prob = probability_of_hand_with_shape(shape)
+	e.insert(END,  "# of hands for this shape" )
+	
+	# track the sum of every probability
+	sum = 0
+	for shape in hands + [-1]: # -1: sentinel value to display sum
+		if shape != -1:
+			count = number_of_hands_with_shape(shape)
+			sum += count
 		e = Entry(relief=GROOVE)
 		e.grid(row=i, column=1, sticky=(N, E, W),  padx=5, ipadx=60)
-		e.insert(END, prob)
+		
+		if shape != -1:
+			e.insert(END, "{:,}".format(count))
+		else:
+			e.insert(END, "{:,}".format(sum))
 		cols.append(e)
 		i+=1
-
+	
+	# then the probability of each hand
+	i = 1
+	e = Entry(relief=GROOVE)
+	e.grid(row=0, column=2, sticky=(N, E, W),  padx=5, ipadx=30)
+	e.insert(END,  "Probability of occuring in a random hand" )
+	
+	# track the sum of every probability
+	sum = 0
+	for shape in hands + [-1]: # -1: sentinel value to display sum
+		if shape != -1:
+			prob = probability_of_hand_with_shape(shape)
+			sum += prob
+		e = Entry(relief=GROOVE)
+		e.grid(row=i, column=2, sticky=(N, E, W),  padx=5, ipadx=60)
+		
+		if shape != -1:
+			e.insert(END, prob)
+		else:
+			e.insert(END, sum)
+		cols.append(e)
+		i+=1
 
 	return cols

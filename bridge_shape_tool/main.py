@@ -1,20 +1,24 @@
 from sys import argv as args
 
-from .disttable import print_dist_table
+from .disttable import print_dist_table, shape_gen, expression_gen, hand_gen, probability_gen, extra_gen
 from .partition import all_bridge_shapes
-from .plot import plot_shape_distribution
+from .plot import plot_shape_distribution, plot_shape_distribution_graph
 from .shapecalc import number_of_hands_with_shape
 from .util import format_shape
 from .wildcard import all_bridge_shapes_matching_wildcard
+from tkinter import *
+from tkinter import simpledialog
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
 
 def main():
 	"""
 	Entry point for BridgeShapeTool
 	Determines what to do based on the command line, and does it
 	"""
+	
 	if len(args) < 2:
-		# Nothing "special" to do, open the interface
-		# (which hasn't been written yet :)
+		programInit()
 		pass
 	else:
 		verb = args[1]
@@ -49,42 +53,42 @@ def test_math():
 	"""
 	our_answers = {shape: number_of_hands_with_shape(shape) for shape in all_bridge_shapes()}
 	
-	# taken from http://www.rpbridge.net/7z70.htm
+	# taken from https://ganeshabridge.com/dist.html
 	known_good = {
-		(4, 3, 3, 3): 66_905_856_160,
 		(4, 4, 3, 2): 136_852_887_600,
 		(5, 3, 3, 2): 98_534_079_072,
-		(4, 4, 4, 1): 19_007_345_500,
-		(5, 4, 2, 2): 67_182_326_640,
 		(5, 4, 3, 1): 82_111_732_560,
+		(5, 4, 2, 2): 67_182_326_640,
+		(4, 3, 3, 3): 66_905_856_160,
 		(6, 3, 2, 2): 35_830_574_208,
-		(6, 3, 3, 1): 21_896_462_016,
-		(5, 4, 4, 0): 7_895_358_900,
-		(5, 5, 2, 1): 20_154_697_992,
 		(6, 4, 2, 1): 29_858_811_840,
-		(7, 2, 2, 2): 3_257_324_928,
-		(5, 5, 3, 0): 5_684_658_408,
-		(6, 4, 3, 0): 8_421_716_160,
+		(6, 3, 3, 1): 21_896_462_016,
+		(5, 5, 2, 1): 20_154_697_992,
+		(4, 4, 4, 1): 19_007_345_500,
 		(7, 3, 2, 1): 11_943_524_736,
+		(6, 4, 3, 0): 8_421_716_160,
+		(5, 4, 4, 0): 7_895_358_900,
+		(5, 5, 3, 0): 5_684_658_408,
 		(6, 5, 1, 1): 4_478_821_776,
-		(7, 3, 3, 0): 1_684_343_232,
-		(7, 4, 1, 1): 2_488_234_320,
 		(6, 5, 2, 0): 4_134_297_024,
-		(7, 4, 2, 0): 2_296_831_680,
+		(7, 2, 2, 2): 3_257_324_928,
+		(7, 4, 1, 1): 2_488_234_320,
+		(7, 4, 2, 0): 2_296_831_680,		
+		(7, 3, 3, 0): 1_684_343_232,
 		(8, 2, 2, 1): 1_221_496_848,
 		(8, 3, 1, 1): 746_470_296,
 		(8, 3, 2, 0): 689_049_504,
-		(6, 6, 1, 0): 459_366_336,
 		(7, 5, 1, 0): 689_049_504,
+		(6, 6, 1, 0): 459_366_336,
 		(8, 4, 1, 0): 287_103_960,
 		(9, 2, 1, 1): 113_101_560,
-		(9, 2, 2, 0): 52_200_720,
 		(9, 3, 1, 0): 63_800_880,
+		(9, 2, 2, 0): 52_200_720,
 		(7, 6, 0, 0): 35_335_872,
 		(8, 5, 0, 0): 19_876_428,
+		(10, 2, 1, 0): 6_960_096,
 		(9, 4, 0, 0): 6_134_700,
 		(10, 1, 1, 1): 2_513_368,
-		(10, 2, 1, 0): 6_960_096,
 		(10, 3, 0, 0): 981_552,
 		(11, 1, 1, 0): 158_184,
 		(11, 2, 0, 0): 73_008,
@@ -103,3 +107,44 @@ def test_math():
 		print("-- Ours: {}".format(our_count))
 		print("-- Result: {}".format(result))
 		print()
+
+#clears anything on the screen
+def clear(root):
+    list = root.pack_slaves()
+    for l in list:
+        l.destroy()
+    list = root.grid_slaves()
+    for l in list:
+        l.destroy()
+
+#initializes the program
+def programInit():  
+        root = Tk()
+        root.title("Bridge Shape Tool")
+        menubar = Menu(root)
+        menubar.add_cascade(label="Graph", command=lambda: gen_graph(root))
+        menubar.add_cascade(label="Table", command=lambda: gen_table(root))
+        menubar.add_cascade(label="Calculator for wildcard variants", command=lambda: gen_extra(root))
+        root.config(menu=menubar)
+        root.mainloop()
+
+#creates a table for all of the data
+def gen_table(root):
+        clear(root)
+        rows = []
+        rows.append(shape_gen())
+        rows.append(expression_gen())
+        rows.append(hand_gen())
+        rows.append(probability_gen())
+
+#creates a histogram with all of the data included
+def gen_graph(root):
+        clear(root)
+        plot_shape_distribution_graph(root)
+
+#creates a table with all wildcard entries for a given shape in form 64XX, X4XX, 13XXX, etc.
+def gen_extra(root):
+        clear(root)
+        wildcard = simpledialog.askstring("input string", "Please enter desired shape of size 4 using a combination of numbers and X values. (e.g.64XX or X4XX)")
+        rows = []
+        rows.append(extra_gen(list(all_bridge_shapes_matching_wildcard(wildcard))))

@@ -67,3 +67,27 @@ def number_of_hands_with_shape_latex(shape):
 		result += "{{13 \\choose {}}}".format(x)
 	
 	return result
+
+def number_of_hands_with_shape_written(shape):
+	"""
+	Creates the expression that makes the number of hands with a given shape in a written expression
+	Follows the same algorithm as number_of_hands_with_shape, just outputs written text instead
+	of LaTeX or a number
+	"""
+	
+	assert valid_shape(shape)
+	
+	# start with an empty string, and add the required latex to it
+	result = ""
+	
+	# Deal first with the floating suits
+	floating = floating_suits(shape)
+	for x in range(4, 4 - floating, -1):
+		# The number of possible choices of suits by this point
+		result += "(" + str(x) + "C1) "
+	
+	# And now, deal with the # of cards from each suit
+	for x in shape:
+		result += "(13C" + str(x) + ") "
+	
+	return result

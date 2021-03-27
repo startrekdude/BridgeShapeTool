@@ -1,6 +1,5 @@
 import matplotlib.pyplot
 import matplotlib.pyplot as plt
-import pandas as pd
 
 from io import BytesIO
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -73,9 +72,6 @@ def plot_shape_distribution_graph(root):
 	# shape data for the x axis and probability to be plotted against the y axis
 	x, y = calc_plot_data()
 	
-	# prepare a DataFrame with the data to be plot
-	df = pd.DataFrame(y, x)
-	
 	# create image frame
 	frame = Frame(root)
 	frame.pack()
@@ -93,6 +89,9 @@ def plot_shape_distribution_graph(root):
 	ax1.set_ylabel('Probability')
 
 	# draw on this plot
-	df.plot(kind='bar', legend=False, ax=ax1, width=1.0)
+	ax1.bar(x, y, width=1.0)
+	
+	for tick in ax1.get_xticklabels():
+		tick.set_rotation(90)
 
 	return canvas

@@ -13,7 +13,7 @@ that sum to that integer. Example:
   1 + 1 + 1 + 1 + 1 = 5
 
 Zeros must be added when formatting bridge shapes; for example, the partition (10, 3)
-should be formatted as the bridge shape 10-3-0-0. This is implemented in util.format_shape
+should be formatted as the bridge shape 10-3-0-0. This is implemented in all_bridge_shapes and format_shape
 """
 
 def generate_partitions_with_duplicates(n, max_length):

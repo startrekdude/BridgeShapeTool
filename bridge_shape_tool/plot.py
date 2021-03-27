@@ -1,13 +1,14 @@
 import matplotlib.pyplot
+import matplotlib.pyplot as plt
 import pandas as pd
 
 from io import BytesIO
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from tkinter import *
+
 from .partition import all_bridge_shapes
 from .shapecalc import probability_of_hand_with_shape
 from .util import format_shape
-from tkinter import *
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-
 
 def calc_plot_data():
 	"""
@@ -66,15 +67,14 @@ def plot_shape_distribution_graph(root):
 	The X-axis is the shape (e.g. "4-3-3-3") and the Y-axis is the probability
 	between 0 and 1.
 	
-	Returns a bytes object containing a PNG image
+	Returns a Tkinter canvas with the graph, ready for display
 	"""
 
 	# shape data for the x axis and probability to be plotted against the y axis
-	plotData= calc_plot_data()
+	x, y = calc_plot_data()
 	
-	# now, plot the data
-	df = pd.DataFrame(plotData[1], plotData[0])
-
+	# prepare a DataFrame with the data to be plot
+	df = pd.DataFrame(y, x)
 	
 	# create image frame
 	frame = Frame(root)
@@ -93,8 +93,6 @@ def plot_shape_distribution_graph(root):
 	ax1.set_ylabel('Probability')
 
 	# draw on this plot
-	df.plot(kind='bar', legend=False, ax=ax1, width= 1.0)
-
-	
+	df.plot(kind='bar', legend=False, ax=ax1, width=1.0)
 
 	return canvas

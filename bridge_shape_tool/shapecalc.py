@@ -74,7 +74,6 @@ def number_of_hands_with_shape_written(shape):
 	Follows the same algorithm as number_of_hands_with_shape, just outputs written text instead
 	of LaTeX or a number
 	"""
-	
 	assert valid_shape(shape)
 	
 	# start with an empty string, and add the required latex to it

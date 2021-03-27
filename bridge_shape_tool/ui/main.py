@@ -29,11 +29,10 @@ def init_ui():
 #creates a table for all of the data
 def gen_table(root):
 	clear(root)
-	rows = []
-	rows.append(shape_gen())
-	rows.append(expression_gen())
-	rows.append(hand_gen())
-	rows.append(probability_gen())
+	shape_gen()
+	expression_gen()
+	hand_gen()
+	probability_gen()
 
 #creates a histogram with all of the data included
 def gen_graph(root):

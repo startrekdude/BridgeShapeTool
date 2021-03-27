@@ -12,7 +12,6 @@ def shape_gen():
 	# Because it's a tuple and count is the first field, it will sort by count
 	data.sort(reverse=True)
 	e = Entry(relief=GROOVE)
-	cols = []
 	e.grid(row=0, column=0, sticky=(N, E, W),  padx=5)
 	e.insert(END,  "Shape:" )
 	
@@ -20,10 +19,7 @@ def shape_gen():
 		e = Entry(relief=GROOVE)
 		e.grid(row=i, column=0, sticky=(N, E, W), padx=5)
 		e.insert(END,  format_shape(shape) )    #we add the shape to the column item
-		cols.append(e)
 		i+=1
-
-	return cols
 
 #creates column with list of all expressions
 def expression_gen():
@@ -33,7 +29,6 @@ def expression_gen():
 	# Because it's a tuple and count is the first field, it will sort by count
 	data.sort(reverse=True)
 	e = Entry(relief=GROOVE)
-	cols = []
 	e.grid(row=0, column=1, sticky=(N, E, W),  padx=5, ipadx=30)
 	e.insert(END,  "Expression:" )
 	
@@ -41,10 +36,7 @@ def expression_gen():
 		e = Entry(relief=GROOVE)
 		e.grid(row=i, column=1, sticky=(N, E, W),  padx=5, ipadx=65)
 		e.insert(END, number_of_hands_with_shape_written(shape))
-		cols.append(e)
 		i+=1
-
-	return cols
 
 #creates column showing the number of each hand
 def hand_gen():
@@ -54,7 +46,6 @@ def hand_gen():
 	# Because it's a tuple and count is the first field, it will sort by count
 	data.sort(reverse=True)
 	e = Entry(relief=GROOVE)
-	cols = []
 	e.grid(row=0, column=2, sticky=(N, E, W),  padx=5)
 	e.insert(END,  "# of hands" )
 	
@@ -62,10 +53,7 @@ def hand_gen():
 		e = Entry(relief=GROOVE)
 		e.grid(row=i, column=2, sticky=(N, E, W),  padx=5)
 		e.insert(END, "{:,}".format(count))
-		cols.append(e)
 		i+=1
-
-	return cols
 
 #creates column showing all probabilities
 def probability_gen():
@@ -75,7 +63,6 @@ def probability_gen():
 	# Because it's a tuple and count is the first field, it will sort by count
 	data.sort(reverse=True)
 	e = Entry(relief=GROOVE)
-	cols = []
 	e.grid(row=0, column=3, sticky=(N, E, W),  padx=5, ipadx=30)
 	e.insert(END,  "Probability" )
 	
@@ -84,16 +71,12 @@ def probability_gen():
 		e = Entry(relief=GROOVE)
 		e.grid(row=i, column=3, sticky=(N, E, W),  padx=5, ipadx=30)
 		e.insert(END, prob)
-		cols.append(e)
 		i+=1
-
-	return cols
 
 #generates the table associated with wildcard.py program.
 def extra_gen(hands):
 	# first we do all possible shapes for the wildcard
 	i = 1
-	cols = []
 	e = Entry(relief=GROOVE)
 	e.grid(row=0, column=0, sticky=(N, E, W),  padx=5, ipadx=30)
 	e.insert(END,  "Possible shapes for the wildcard" )
@@ -102,7 +85,6 @@ def extra_gen(hands):
 		e = Entry(relief=GROOVE)
 		e.grid(row=i, column=0, sticky=(N, E, W),  padx=5, ipadx=30)
 		e.insert(END, shape)
-		cols.append(e)
 		i+=1
 	
 	# then we do the number of hands in each shame
@@ -124,7 +106,6 @@ def extra_gen(hands):
 			e.insert(END, "{:,}".format(count))
 		else:
 			e.insert(END, "{:,}".format(sum))
-		cols.append(e)
 		i+=1
 	
 	# then the probability of each hand
@@ -146,7 +127,4 @@ def extra_gen(hands):
 			e.insert(END, prob)
 		else:
 			e.insert(END, sum)
-		cols.append(e)
 		i+=1
-
-	return cols

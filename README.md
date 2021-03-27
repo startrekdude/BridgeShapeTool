@@ -1,5 +1,5 @@
 # BridgeShapeTool
-The shape of a bridge hand is the set of lengths of the suits, i.e., a 4-tuple (w,x,y,z) where w≥x≥y≥z, w+x+y+z=13, and each w, x, y, z describes the length of a suit in the hand. For this project, we wrote a program that calculates the probability distribution of a random hand.The program is for python 3.8 or above and uses the matplotlib and tkinter libraries. The program calculates all the probabilities of all hand shapes,plots the distribution, and includes a function to calculate incomplete bridge shapes (e.g., (6,4,X,X)).
+The shape of a bridge hand is the set of lengths of the suits, i.e., a 4-tuple (w,x,y,z) where w≥x≥y≥z, w+x+y+z=13, and each w, x, y, z describes the length of a suit in the hand. For this project, we wrote a program that calculates the probability distribution of the shape of a random hand.The program is for python 3.8 or above and uses the matplotlib and tkinter libraries. The program calculates all the probabilities of all hand shapes,plots the distribution, and includes a function to calculate incomplete bridge shapes (e.g., (6,4,X,X)).
 
  
 Bridge Hand Probability Calculations:

@@ -11,3 +11,6 @@ To calculate the probability of a given shape the program does the following:
 P(w,x,y,z) = #h/(52 choose 13)
 
 We also programmed a function that finds all the shapes associated with a given hand shape. If x1, … , xn (n=1,…,4) are the known numbers in the hand shape, then the code searches through all the hand shapes that have x1, … , xn in them, and outputs them. For example (6,4,X,X) outputs (6,4,2,1) and (6,4,3,0)
+
+
+Icon image taken from https://www.hiclipart.com/free-transparent-background-png-clipart-icdim. We do not own the rights to the image, all credits go to the original creator who uploaded to hiclipart.com

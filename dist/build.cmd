@@ -1,6 +1,6 @@
 @echo off
 
-set SEVENZIP=C:\Program Files\7-Zip
+set SEVENZIP=D:\7ZIP\7-Zip
 
 rd /q /s appdir
 pyinstaller app.spec

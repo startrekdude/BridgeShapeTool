@@ -1,6 +1,7 @@
 from tkinter import *
 
-import tkinter.simpledialog as simpledialog 
+import tkinter.simpledialog as simpledialog
+import tkinter.messagebox as messagebox
 from .icon_asset import ICON
 from .table import shape_gen, expression_gen, hand_gen, probability_gen, extra_gen
 from ..plot import plot_shape_distribution_graph

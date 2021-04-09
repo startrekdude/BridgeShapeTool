@@ -1,5 +1,6 @@
 from tkinter import *
 
+from .icon_asset import ICON
 from .table import shape_gen, expression_gen, hand_gen, probability_gen, extra_gen
 from ..plot import plot_shape_distribution_graph
 from ..wildcard import all_bridge_shapes_matching_wildcard
@@ -17,6 +18,7 @@ def clear(root):
 def init_ui():  
 	root = Tk()
 	root.title("Bridge Shape Tool")
+	root.iconphoto(False, PhotoImage(data=ICON))
 	menubar = Menu(root)
 	menubar.add_cascade(label="Graph", command=lambda: gen_graph(root))
 	menubar.add_cascade(label="Table", command=lambda: gen_table(root))

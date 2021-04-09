@@ -8,5 +8,5 @@ rd /q /s build
 rd /q /s dist
 rename app appdir
 
-del BridgeShapeTool.zip
-"%SEVENZIP%\7z.exe" a BridgeShapeTool.zip appdir\*
+del BridgeShapeTool.exe
+"%SEVENZIP%\7z.exe" -sfx7zS2.sfx -m0=Copy a BridgeShapeTool.exe appdir\*

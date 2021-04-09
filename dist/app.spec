@@ -32,7 +32,8 @@ exe = EXE(pyz,
           strip=False,
           upx=False,
           console=False,
-          version='version.txt')
+          version='version.txt',
+          icon='icon.ico')
 
 coll = COLLECT(exe,
                a.binaries,

@@ -12,8 +12,7 @@ from .partition import all_bridge_shapes
 def parse_wildcard(wildcard):
 	"""
 	Parses a wildcard specified as a string into a match-tuple
-	Each element of the match tuple will either be a number that must match in that position,
-	or an "X" for any number
+	Each element of the match tuple will be a number that must match
 	"""
 	
 	# force it to all caps
@@ -46,20 +45,15 @@ def parse_wildcard(wildcard):
 	if len(result) != 4:
 		raise ValueError("Wildcard has {} entries; expected 4".format(len(result)))
 	
-	# here we sort the result (as bridge shapes are denoted highest to lowest) and put Xs last
-	sorted_digits = tuple(sorted((x for x in result if x != "X"), reverse=True))
-	just_xs = tuple(x for x in result if x == "X")
-	
-	return sorted_digits + just_xs
+	return tuple(x for x in result if x != "X")
 
 def matches_wildcard(shape, wildcard):
 	"Returns whether a shape matches the given parsed wildcard"
-	for i, x in enumerate(shape):
-		# X means match anything
-		if wildcard[i] == "X": continue
-		
-		# Otherwise, match just the given number
-		if wildcard[i] != x: return False
+	remaining_digits = list(shape)
+	for digit in wildcard:
+		if digit not in remaining_digits:
+			return False
+		remaining_digits.remove(digit)
 	return True
 
 def all_bridge_shapes_matching_wildcard(wildcard):
